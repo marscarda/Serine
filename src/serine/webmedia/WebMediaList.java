@@ -6,6 +6,7 @@ public class WebMediaList {
         //---------------------------------------------------------
         items[0] = new WebMediaObject();
         items[0].name = "blogarg";
+        items[0].host = "pulsopublico.com.ar";
         items[0].lang  = BlogLang.SPANISH;
         //---------------------------------------------------------
     }
