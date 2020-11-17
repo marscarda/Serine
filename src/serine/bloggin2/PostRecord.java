@@ -1,4 +1,4 @@
-package serine.bloggin;
+package serine.bloggin2;
 //**************************************************************************
 public class PostRecord {
     long postrecordid = 0;
