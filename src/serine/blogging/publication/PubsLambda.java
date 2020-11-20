@@ -1,5 +1,6 @@
 package serine.blogging.publication;
 //*************************************************************************
+import methionine.AppException;
 import methionine.Celaeno;
 import serine.blogging.DBPubs;
 import methionine.sql.SQLLockTables;
@@ -32,6 +33,21 @@ public class PubsLambda extends QueryPubs1 {
     }
     //*********************************************************************
     /**
+     * Returns a post record given its ID
+     * @param postid
+     * @return
+     * @throws AppException OBJECTNOTFOUND
+     * @throws Exception 
+     */
+    public PostRecord getPostRecord (long postid) throws AppException, Exception {
+        //----------------------------------------------------------
+        connection = this.electra.slaveConnection();
+        setDataBase();
+        //----------------------------------------------------------
+        return this.selectPostRecord(postid);
+    }
+    //*********************************************************************
+    /**
      * Returns post records
      * @return
      * @throws Exception 
@@ -42,6 +58,24 @@ public class PubsLambda extends QueryPubs1 {
         setDataBase();
         //----------------------------------------------------------
         return this.selectRecords();
+    }
+    //*********************************************************************
+    /**
+     * Adds a part to a post
+     * @param part
+     * @throws AppException
+     * @throws Exception 
+     */
+    public void addPostPart (PostPart part) throws AppException, Exception {
+        //-------------------------------------------------------------------
+        connection = electra.masterConnection();
+        setDataBase();
+        //-------------------------------------------------------------------
+        if (checkValueCount(DBPubs.PostRecord.TABLE, DBPubs.PostRecord.POSTID, part.postid) == 0)
+            throw new AppException("Post not found", AppException.OBJECTNOTFOUND);
+        //-------------------------------------------------------------------
+        this.insertPostPart(part);
+        //-------------------------------------------------------------------
     }
     //*********************************************************************
 }

@@ -1,10 +1,21 @@
 package serine.blogging.publication;
 //*************************************************************************
-public abstract class PostPiece {
+public class PostPart {
     //*********************************************************
-    int childtype = 0;
+    long postid = 0;
+    int partType = 0;
+    public int partType () { return partType; }
     //=========================================================
-    public int childType () { return childtype; }
+    public void setPostID (long postid) { this.postid = postid; }
+    public long postID () { return postid; }
+    //*********************************************************
+    //Text piece
+    String text = null;
+    public void setText (String text) { this.text = text; }
+    public String getText () {
+        if (text == null) return "";
+        return text;
+    }
     //*********************************************************
     public static final int PARAGRAPH = 1;
     public static final int PICTURE = 2;

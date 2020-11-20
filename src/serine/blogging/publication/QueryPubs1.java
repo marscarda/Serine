@@ -5,10 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import methionine.AppException;
+import methionine.sql.SQLCondition;
 import serine.blogging.DBPubs;
 import methionine.sql.SQLInsert;
 import methionine.sql.SQLQueryCmd;
 import methionine.sql.SQLSelect;
+import methionine.sql.SQLWhere;
 //*************************************************************************
 public class QueryPubs1 extends PubsTables {
     //*********************************************************************
@@ -35,6 +38,49 @@ public class QueryPubs1 extends PubsTables {
         finally {
             if (st != null) try {st.close();} catch(Exception e){}
         }        
+    }
+    //*********************************************************************
+    /**
+     * Selects a Post Record given its ID
+     * @param postid
+     * @return
+     * @throws AppException
+     * @throws Exception 
+     */
+    protected PostRecord selectPostRecord (long postid) throws AppException, Exception {
+        SQLQueryCmd sql = new SQLQueryCmd();
+        SQLSelect select = new SQLSelect(DBPubs.PostRecord.TABLE);
+        select.addItem(DBPubs.PostRecord.POSTID);
+        select.addItem(DBPubs.PostRecord.TITLE);
+        SQLWhere whr = new SQLWhere();
+        whr.addCondition(new SQLCondition(DBPubs.PostRecord.POSTID, "=", postid));
+        sql.addClause(select);
+        sql.addClause(whr);
+        //-------------------------------------------------------
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        //-------------------------------------------------------
+        try {
+            st = connection.prepareStatement(sql.getText());
+            sql.setParameters(st, 1);
+            rs = st.executeQuery();
+            if (!rs.next())
+                throw new AppException("Post not found", AppException.OBJECTNOTFOUND);
+            PostRecord post;
+            post = new PostRecord();
+            post.postrecordid = rs.getLong(DBPubs.PostRecord.POSTID);
+            post.title = rs.getString(DBPubs.PostRecord.TITLE);
+            return post;
+        }
+        catch (SQLException e) {
+            StringBuilder msg = new StringBuilder("Failed to select Posts\n");
+            msg.append(e.getMessage());
+            throw new Exception(msg.toString());
+        }
+        finally {
+            if (st != null) try {st.close();} catch(Exception e){}
+            if (rs != null) try {rs.close();} catch(Exception e){}
+        }
     }
     //*********************************************************************
     /**
@@ -72,6 +118,79 @@ public class QueryPubs1 extends PubsTables {
         }
         catch (SQLException e) {
             StringBuilder msg = new StringBuilder("Failed to select Posts\n");
+            msg.append(e.getMessage());
+            throw new Exception(msg.toString());
+        }
+        finally {
+            if (st != null) try {st.close();} catch(Exception e){}
+            if (rs != null) try {rs.close();} catch(Exception e){}
+        }
+    }
+    //*********************************************************************
+    /**
+     * Inserts a new post part into the database
+     * @param part
+     * @throws Exception 
+     */
+    protected void insertPostPart (PostPart part) throws Exception {
+        SQLInsert insert = new SQLInsert(DBPubs.PostParts.TABLE);
+        insert.addValue(DBPubs.PostParts.PARTTYPE, part.partType);
+        insert.addValue(DBPubs.PostParts.POSTID, part.postid);
+        insert.addValue(DBPubs.PostParts.TEXT, part.text);
+        PreparedStatement st = null;
+        try {
+            st = connection.prepareStatement(insert.getText());
+            insert.setParameters(st, 1);
+            st.execute();            
+        }
+        catch (SQLException e) {
+            StringBuilder msg = new StringBuilder("Failed to insert new Post part \n");
+            msg.append(e.getMessage());
+            throw new Exception(msg.toString());
+        }
+        finally {
+            if (st != null) try {st.close();} catch(Exception e){}
+        }        
+    }
+    //*********************************************************************
+    /**
+     * Selects and returns post parts given the post id
+     * @param postid
+     * @return
+     * @throws Exception 
+     */
+    protected PostPart[] selectPostPartsByPost (long postid) throws Exception {
+        //-------------------------------------------------------
+        SQLQueryCmd sql = new SQLQueryCmd();
+        SQLSelect select = new SQLSelect(DBPubs.PostParts.TABLE);
+        select.addItem(DBPubs.PostParts.PARTTYPE);
+        select.addItem(DBPubs.PostParts.POSTID);
+        select.addItem(DBPubs.PostParts.TEXT);
+        SQLWhere whr = new SQLWhere();
+        whr.addCondition(new SQLCondition(DBPubs.PostParts.POSTID, "=", postid));
+        sql.addClause(select);
+        sql.addClause(whr);
+        //-------------------------------------------------------
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        //-------------------------------------------------------
+        try {
+            st = connection.prepareStatement(sql.getText());
+            sql.setParameters(st, 1);
+            rs = st.executeQuery();
+            List<PostPart> parts = new ArrayList<>();
+            PostPart part;
+            while (rs.next()) {
+                part = new PostPart();
+                part.partType = rs.getInt(DBPubs.PostParts.PARTTYPE);
+                part.postid = rs.getLong(DBPubs.PostParts.POSTID);
+                part.text = rs.getString(DBPubs.PostParts.TEXT);
+                parts.add(part);
+            }
+            return parts.toArray(new PostPart[0]);
+        }
+        catch (SQLException e) {
+            StringBuilder msg = new StringBuilder("Failed to select Work Teams\n");
             msg.append(e.getMessage());
             throw new Exception(msg.toString());
         }

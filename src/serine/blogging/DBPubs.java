@@ -8,5 +8,12 @@ public class DBPubs {
         public static final String TITLE = "title";
     }
     //**********************************************************************
+    public static class PostParts {
+        public static final String TABLE = "postparts";
+        public static final String PARTTYPE = "parttype";
+        public static final String POSTID = "postid";
+        public static final String TEXT = "text";
+    }
+    //**********************************************************************
 }
 //*************************************************************************
