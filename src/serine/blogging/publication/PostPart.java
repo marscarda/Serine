@@ -2,8 +2,13 @@ package serine.blogging.publication;
 //*************************************************************************
 public class PostPart {
     //*********************************************************
+    long partid = 0;
     long postid = 0;
     int partType = 0;
+    //=========================================================
+    public long getID () { return partid; }
+    //=========================================================
+    public void setType (int parttype) { partType = parttype; }
     public int partType () { return partType; }
     //=========================================================
     public void setPostID (long postid) { this.postid = postid; }

@@ -74,8 +74,33 @@ public class PubsLambda extends QueryPubs1 {
         if (checkValueCount(DBPubs.PostRecord.TABLE, DBPubs.PostRecord.POSTID, part.postid) == 0)
             throw new AppException("Post not found", AppException.OBJECTNOTFOUND);
         //-------------------------------------------------------------------
-        this.insertPostPart(part);
+        SQLLockTables lock = new SQLLockTables();
+        lock.setDataBase(databasename);
+        lock.addTable(DBPubs.PostParts.TABLE);
+        this.getExclusiveTableAccess(lock);
         //-------------------------------------------------------------------
+        while (true) {
+            part.partid = Celaeno.getUniqueID();
+            if (checkValueCount(DBPubs.PostParts.TABLE, DBPubs.PostParts.PARTID, part.partid) == 0) break;
+        }
+        //-------------------------------------------------------------------
+        this.insertPostPart(part);
+        this.releaseExclusiveTableAccess();
+        //-------------------------------------------------------------------
+    }
+    //*********************************************************************
+    /**
+     * Returns the post parts given a post ID.
+     * @param postid
+     * @return
+     * @throws Exception 
+     */
+    public PostPart[] getPostParts(long postid) throws Exception {
+        //----------------------------------------------------------
+        connection = this.electra.slaveConnection();
+        setDataBase();
+        //----------------------------------------------------------
+        return this.selectPostPartsByPost(postid);
     }
     //*********************************************************************
 }

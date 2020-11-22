@@ -134,6 +134,7 @@ public class QueryPubs1 extends PubsTables {
      */
     protected void insertPostPart (PostPart part) throws Exception {
         SQLInsert insert = new SQLInsert(DBPubs.PostParts.TABLE);
+        insert.addValue(DBPubs.PostParts.PARTID, part.partid);
         insert.addValue(DBPubs.PostParts.PARTTYPE, part.partType);
         insert.addValue(DBPubs.PostParts.POSTID, part.postid);
         insert.addValue(DBPubs.PostParts.TEXT, part.text);
@@ -163,6 +164,7 @@ public class QueryPubs1 extends PubsTables {
         //-------------------------------------------------------
         SQLQueryCmd sql = new SQLQueryCmd();
         SQLSelect select = new SQLSelect(DBPubs.PostParts.TABLE);
+        select.addItem(DBPubs.PostParts.PARTID);
         select.addItem(DBPubs.PostParts.PARTTYPE);
         select.addItem(DBPubs.PostParts.POSTID);
         select.addItem(DBPubs.PostParts.TEXT);
@@ -182,6 +184,7 @@ public class QueryPubs1 extends PubsTables {
             PostPart part;
             while (rs.next()) {
                 part = new PostPart();
+                part.partid = rs.getLong(DBPubs.PostParts.PARTID);
                 part.partType = rs.getInt(DBPubs.PostParts.PARTTYPE);
                 part.postid = rs.getLong(DBPubs.PostParts.POSTID);
                 part.text = rs.getString(DBPubs.PostParts.TEXT);
@@ -190,7 +193,7 @@ public class QueryPubs1 extends PubsTables {
             return parts.toArray(new PostPart[0]);
         }
         catch (SQLException e) {
-            StringBuilder msg = new StringBuilder("Failed to select Work Teams\n");
+            StringBuilder msg = new StringBuilder("Failed to select Post Parts\n");
             msg.append(e.getMessage());
             throw new Exception(msg.toString());
         }
