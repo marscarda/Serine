@@ -24,6 +24,7 @@ public class QueryPubs1 extends PubsTables {
         SQLInsert insert = new SQLInsert(DBPubs.PostRecord.TABLE);
         insert.addValue(DBPubs.PostRecord.POSTID, post.postrecordid);
         insert.addValue(DBPubs.PostRecord.TITLE, post.title);
+        insert.addValue(DBPubs.PostRecord.SUMARY, post.sumary);
         PreparedStatement st = null;
         try {
             st = connection.prepareStatement(insert.getText());
@@ -52,6 +53,8 @@ public class QueryPubs1 extends PubsTables {
         SQLSelect select = new SQLSelect(DBPubs.PostRecord.TABLE);
         select.addItem(DBPubs.PostRecord.POSTID);
         select.addItem(DBPubs.PostRecord.TITLE);
+        select.addItem(DBPubs.PostRecord.SUMARY);
+        select.addItem(DBPubs.PostRecord.PUBLISHED);
         SQLWhere whr = new SQLWhere();
         whr.addCondition(new SQLCondition(DBPubs.PostRecord.POSTID, "=", postid));
         sql.addClause(select);
@@ -70,6 +73,8 @@ public class QueryPubs1 extends PubsTables {
             post = new PostRecord();
             post.postrecordid = rs.getLong(DBPubs.PostRecord.POSTID);
             post.title = rs.getString(DBPubs.PostRecord.TITLE);
+            post.sumary = rs.getString(DBPubs.PostRecord.SUMARY);
+            post.published = rs.getInt(DBPubs.PostRecord.PUBLISHED);
             return post;
         }
         catch (SQLException e) {
@@ -93,6 +98,8 @@ public class QueryPubs1 extends PubsTables {
         SQLSelect select = new SQLSelect(DBPubs.PostRecord.TABLE);
         select.addItem(DBPubs.PostRecord.POSTID);
         select.addItem(DBPubs.PostRecord.TITLE);
+        select.addItem(DBPubs.PostRecord.SUMARY);
+        select.addItem(DBPubs.PostRecord.PUBLISHED);
         //--------------------------------
         
         
@@ -112,6 +119,8 @@ public class QueryPubs1 extends PubsTables {
                 post = new PostRecord();
                 post.postrecordid = rs.getLong(DBPubs.PostRecord.POSTID);
                 post.title = rs.getString(DBPubs.PostRecord.TITLE);
+                post.sumary = rs.getString(DBPubs.PostRecord.SUMARY);
+                post.published = rs.getInt(DBPubs.PostRecord.PUBLISHED);
                 posts.add(post);
             }
             return posts.toArray(new PostRecord[0]);

@@ -31,6 +31,8 @@ public class PubsTables extends Alcyone {
         create.setEngine(MySQLEngine.INNODB);
         create.addField(DBPubs.PostRecord.POSTID, "BIGINT NOT NULL");
         create.addField(DBPubs.PostRecord.TITLE, "VARCHAR (100) NOT NULL");
+        create.addField(DBPubs.PostRecord.SUMARY, "VARCHAR (300) NULL");
+        create.addField(DBPubs.PostRecord.PUBLISHED, "INTEGER NOT NULL DEFAULT 0");
         //------------------------------------------------------------------
         PreparedStatement st = null;
         this.setDataBase();

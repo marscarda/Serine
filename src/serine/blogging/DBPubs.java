@@ -6,6 +6,8 @@ public class DBPubs {
         public static final String TABLE = "postrecords";
         public static final String POSTID = "postid";
         public static final String TITLE = "title";
+        public static final String SUMARY = "sumary";
+        public static final String PUBLISHED = "published";
     }
     //**********************************************************************
     public static class PostParts {
