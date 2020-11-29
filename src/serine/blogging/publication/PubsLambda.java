@@ -35,16 +35,23 @@ public class PubsLambda extends QueryPubs1 {
     /**
      * Returns a post record given its ID
      * @param postid
+     * @param fillparts
      * @return
      * @throws AppException OBJECTNOTFOUND
      * @throws Exception 
      */
-    public PostRecord getPostRecord (long postid) throws AppException, Exception {
+    public PostRecord getPostRecord (long postid, boolean fillparts) throws AppException, Exception {
         //----------------------------------------------------------
         connection = this.electra.slaveConnection();
         setDataBase();
         //----------------------------------------------------------
-        return this.selectPostRecord(postid);
+        PostRecord post = this.selectPostRecord(postid);
+        //----------------------------------------------------------
+        if (fillparts) 
+            post.parts = this.selectPostPartsByPost(postid);
+        //----------------------------------------------------------
+        return post;
+        //----------------------------------------------------------
     }
     //*********************************************************************
     /**

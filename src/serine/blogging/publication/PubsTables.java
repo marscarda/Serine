@@ -60,7 +60,7 @@ public class PubsTables extends Alcyone {
         create.addField(DBPubs.PostParts.PARTID, "BIGINT NOT NULL");
         create.addField(DBPubs.PostParts.PARTTYPE, "INTEGER NOT NULL DEFAULT 0");
         create.addField(DBPubs.PostParts.POSTID, "BIGINT NOT NULL");
-        create.addField(DBPubs.PostParts.TEXT, "VARCHAR (100) NOT NULL");
+        create.addField(DBPubs.PostParts.TEXT, "VARCHAR (30000) NOT NULL");
         //------------------------------------------------------------------
         PreparedStatement st = null;
         this.setDataBase();
