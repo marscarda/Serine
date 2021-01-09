@@ -1,6 +1,6 @@
-package serine.publication;
+package serine.access;
 //**************************************************************************
-public class PublicationsLambda extends QueryPublicRecords1 {
+public class QueryPublicRecords1 extends QueryPubRecordsTabs {
     
 }
 //**************************************************************************

@@ -1,6 +1,8 @@
-package serine.publication;
+package serine.access;
 //**************************************************************************
-public class QueryPublicRecords1 extends QueryPubRecordsTabs {
-    
+public class PublicationRecord {
+    long publicationid = 0;
+    int objecttype = 0;
+    String name = null;
 }
 //**************************************************************************

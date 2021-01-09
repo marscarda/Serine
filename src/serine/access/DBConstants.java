@@ -1,4 +1,4 @@
-package serine.publication;
+package serine.access;
 //**************************************************************************
 class DBPublications {
     static final String TABLE = "publications";

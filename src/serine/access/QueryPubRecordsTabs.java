@@ -1,4 +1,4 @@
-package serine.publication;
+package serine.access;
 //**************************************************************************
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
