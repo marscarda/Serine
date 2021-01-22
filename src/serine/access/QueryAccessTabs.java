@@ -6,7 +6,7 @@ import methionine.Alcyone;
 import methionine.sql.MySQLEngine;
 import methionine.sql.SQLCreateTable;
 //**************************************************************************
-public class QueryPubRecordsTabs extends Alcyone {
+public class QueryAccessTabs extends Alcyone {
     //***********************************************************************
     public void ensureTables() throws Exception {
         String[] tables;// = getTables();
@@ -19,18 +19,18 @@ public class QueryPubRecordsTabs extends Alcyone {
             throw new Exception(err.toString());
         }
         //===================================================================
-        if (!checkTableExists(DBPublications.TABLE, tables)) createPublicationRecords();
+        if (!checkTableExists(DBAccess.ObjectAccess.TABLE, tables)) createPublicationRecords();
         //===================================================================
     }
     //***********************************************************************
     private void createPublicationRecords () throws Exception {
         //-------------------------------------------------------------------
-        SQLCreateTable create = new SQLCreateTable(DBPublications.TABLE);
+        SQLCreateTable create = new SQLCreateTable(DBAccess.ObjectAccess.TABLE);
         create.setEngine(MySQLEngine.INNODB);
-        create.addField(DBPublications.PUBLICATIONID, "BIGINT NOT NULL");
-        create.addField(DBPublications.OBJECTTYPE, "INTEGER NOT NULL DEFAULT 0");
-        create.addField(DBPublications.USERID, "BIGINT NOT NULL");
-        create.addField(DBPublications.NAME, "VARCHAR (100) NOT NULL");
+        create.addField(DBAccess.ObjectAccess.ACCESSID, "BIGINT NOT NULL");
+        create.addField(DBAccess.ObjectAccess.OBJECTTYPE, "INTEGER NOT NULL DEFAULT 0");
+        create.addField(DBAccess.ObjectAccess.USERID, "BIGINT NOT NULL");
+        create.addField(DBAccess.ObjectAccess.NAME, "VARCHAR (100) NOT NULL");
         //-------------------------------------------------------------------
         PreparedStatement st = null;
         this.setDataBase();
@@ -40,7 +40,7 @@ public class QueryPubRecordsTabs extends Alcyone {
         }
         catch (SQLException e) {
             StringBuilder err = new StringBuilder("Failed to create ");
-            err.append(DBPublications.TABLE);
+            err.append(DBAccess.ObjectAccess.TABLE);
             err.append(" table\n");
             err.append(e.getMessage());
             throw new Exception(err.toString());

@@ -1,7 +1,7 @@
 package serine.blogging;
 //*************************************************************************
 public class DBPubs {
-    //**********************************************************************
+    //*********************************************************************
     public static class PostRecord {
         public static final String TABLE = "postrecords";
         public static final String POSTID = "postid";
@@ -9,7 +9,7 @@ public class DBPubs {
         public static final String SUMARY = "sumary";
         public static final String PUBLISHED = "published";
     }
-    //**********************************************************************
+    //*********************************************************************
     public static class PostParts {
         public static final String TABLE = "postparts";
         public static final String PARTID = "partid";
@@ -17,6 +17,6 @@ public class DBPubs {
         public static final String POSTID = "postid";
         public static final String TEXT = "text";
     }
-    //**********************************************************************
+    //*********************************************************************
 }
 //*************************************************************************
