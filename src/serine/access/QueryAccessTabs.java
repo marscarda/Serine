@@ -29,6 +29,7 @@ public class QueryAccessTabs extends Alcyone {
         create.setEngine(MySQLEngine.INNODB);
         create.addField(DBAccess.ObjectAccess.ACCESSID, "BIGINT NOT NULL");
         create.addField(DBAccess.ObjectAccess.OBJECTTYPE, "INTEGER NOT NULL DEFAULT 0");
+        create.addField(DBAccess.ObjectAccess.OBJECTID, "BIGINT NOT NULL");
         create.addField(DBAccess.ObjectAccess.USERID, "BIGINT NOT NULL");
         create.addField(DBAccess.ObjectAccess.NAME, "VARCHAR (100) NOT NULL");
         //-------------------------------------------------------------------
