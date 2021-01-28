@@ -43,14 +43,15 @@ public class QueryAccess1 extends QueryAccessTabs {
     //******************************************************************
     protected AccessRecord selectAccessRecord (long accessid) {
         
-        
-        
+        //DO SOMETHING HERE        
         
         return null;
     }
     //******************************************************************
     /**
      * Selects and returns access records given the object type and id
+     * @param objtype
+     * @param objid
      * @return 
      * @throws java.lang.Exception 
      */
