@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import methionine.sql.SQLCondition;
+import methionine.sql.SQLDelete;
 import methionine.sql.SQLInsert;
 import methionine.sql.SQLQueryCmd;
 import methionine.sql.SQLSelect;
@@ -101,6 +102,38 @@ public class QueryAccess1 extends QueryAccessTabs {
             if (st != null) try {st.close();} catch(Exception e){}
             if (rs != null) try {rs.close();} catch(Exception e){}
         }
+    }
+    //******************************************************************
+    /**
+     * deletes an access record from the database.
+     * @param accessid
+     * @throws Exception 
+     */
+    protected void deleteAccessRecord (long accessid) throws Exception {
+        SQLQueryCmd sql = new SQLQueryCmd();
+        SQLDelete delete = new SQLDelete(DBAccess.ObjectAccess.TABLE);
+        SQLWhere whr = new SQLWhere();
+        whr.addCondition(new SQLCondition(DBAccess.ObjectAccess.ACCESSID, "=", accessid));
+        sql.addClause(delete);
+        sql.addClause(whr);
+        //-------------------------------------------------------
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        //-------------------------------------------------------
+        try {
+            st = connection.prepareStatement(sql.getText());
+            sql.setParameters(st, 1);
+            st.execute();            
+        }
+        catch (SQLException e) {
+            StringBuilder msg = new StringBuilder("Failed to delete access \n");
+            msg.append(e.getMessage());
+            throw new Exception(msg.toString());
+        }
+        finally {
+            if (st != null) try {st.close();} catch(Exception e){}
+        }        
+        //-------------------------------------------------------
     }
     //******************************************************************
 }

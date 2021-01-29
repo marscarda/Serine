@@ -6,7 +6,7 @@ import methionine.sql.SQLLockTables;
 public class AccessLambda extends QueryAccess1 {
     //******************************************************************
     /**
-     * 
+     * Creates an access to a given object
      * @param record
      * @throws Exception 
      */
@@ -31,6 +31,13 @@ public class AccessLambda extends QueryAccess1 {
     }
     //******************************************************************
     //******************************************************************
+    /**
+     * Returns an access list for a given object
+     * @param objtype
+     * @param objid
+     * @return
+     * @throws Exception 
+     */
     public AccessRecord[] getAccessListByObject (int objtype, long objid) throws Exception {
         //--------------------------------------------------------------
         connection = electra.slaveConnection();
@@ -38,6 +45,19 @@ public class AccessLambda extends QueryAccess1 {
         //--------------------------------------------------------------
         return this.selectAccessRecordsByObject(objtype, objid);
         //--------------------------------------------------------------
+    }
+    //******************************************************************
+    /**
+     * Destroy a specific access.
+     * @param accessid
+     * @throws Exception 
+     */
+    public void destroyAccess (long accessid) throws Exception {
+        //--------------------------------------------------------------
+        connection = electra.masterConnection();
+        setDataBase();
+        //--------------------------------------------------------------
+        this.deleteAccessRecord(accessid);
     }
     //******************************************************************
 }
