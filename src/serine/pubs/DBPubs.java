@@ -1,4 +1,4 @@
-package serine.blogging;
+package serine.pubs;
 //*************************************************************************
 public class DBPubs {
     //*********************************************************************
@@ -16,6 +16,13 @@ public class DBPubs {
         public static final String PARTTYPE = "parttype";
         public static final String POSTID = "postid";
         public static final String TEXT = "text";
+    }
+    //*********************************************************************
+    public static class ObjectPubs {
+        public static final String TABLE = "objectpubs";
+        public static final String TITLE = "title";
+        public static final String TEXT = "text";
+        public static final String ACCESSID = "accessid";
     }
     //*********************************************************************
 }

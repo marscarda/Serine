@@ -1,12 +1,11 @@
-package serine.blogging.publication;
-//*************************************************************************
+package serine.pubs;
+//***************************************************************************
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import methionine.Alcyone;
-import serine.blogging.DBPubs;
 import methionine.sql.MySQLEngine;
 import methionine.sql.SQLCreateTable;
-//*************************************************************************
+//***************************************************************************
 public class PubsTables extends Alcyone {
     //**********************************************************************
     public void ensureTables() throws Exception {
@@ -22,8 +21,9 @@ public class PubsTables extends Alcyone {
         //===================================================================
         if (!checkTableExists(DBPubs.PostRecord.TABLE, tables)) createPostRecords();
         if (!checkTableExists(DBPubs.PostParts.TABLE, tables)) createPostParts();
+        if (!checkTableExists(DBPubs.ObjectPubs.TABLE, tables)) createObjectPubs();
         //===================================================================
-    }
+    }    
     //**********************************************************************
     private void createPostRecords () throws Exception {
         //------------------------------------------------------------------
@@ -79,7 +79,34 @@ public class PubsTables extends Alcyone {
             try { if (st != null) st.close(); } catch (Exception e) {}
         }
         //------------------------------------------------------------------
+    }    
+    //**********************************************************************
+    private void createObjectPubs () throws Exception {
+        //-------------------------------------------------------------------
+        SQLCreateTable create = new SQLCreateTable(DBPubs.ObjectPubs.TABLE);
+        create.setEngine(MySQLEngine.INNODB.INNODB);
+        create.addField(DBPubs.ObjectPubs.TITLE, "VARCHAR (100) NOT NULL");
+        create.addField(DBPubs.ObjectPubs.TEXT, "VARCHAR (1000) NOT NULL");
+        create.addField(DBPubs.ObjectPubs.ACCESSID, "BIGINT NOT NULL");
+        //-------------------------------------------------------------------
+        PreparedStatement st = null;
+        this.setDataBase();
+        try {
+            st = connection.prepareStatement(create.getText());
+            st.execute();
+        }
+        catch (SQLException e) {
+            StringBuilder err = new StringBuilder("Failed to create ");
+            err.append(DBPubs.ObjectPubs.TABLE);
+            err.append(" table\n");
+            err.append(e.getMessage());
+            throw new Exception(err.toString());
+        }
+        finally {
+            try { if (st != null) st.close(); } catch (Exception e) {}
+        }
+        //-------------------------------------------------------------------
     }
     //**********************************************************************
 }
-//*************************************************************************
+//***************************************************************************

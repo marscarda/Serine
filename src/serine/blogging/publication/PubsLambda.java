@@ -2,7 +2,7 @@ package serine.blogging.publication;
 //*************************************************************************
 import methionine.AppException;
 import methionine.Celaeno;
-import serine.blogging.DBPubs;
+import serine.pubs.DBPubs;
 import methionine.sql.SQLLockTables;
 //*************************************************************************
 public class PubsLambda extends QueryPubs1 {

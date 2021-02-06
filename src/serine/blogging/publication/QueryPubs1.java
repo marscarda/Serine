@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import methionine.AppException;
 import methionine.sql.SQLCondition;
-import serine.blogging.DBPubs;
+import serine.pubs.DBPubs;
 import methionine.sql.SQLInsert;
 import methionine.sql.SQLQueryCmd;
 import methionine.sql.SQLSelect;
 import methionine.sql.SQLWhere;
+import serine.pubs.PubsTables;
 //*************************************************************************
 public class QueryPubs1 extends PubsTables {
     //*********************************************************************
