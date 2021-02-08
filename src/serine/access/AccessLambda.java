@@ -1,5 +1,6 @@
 package serine.access;
 //**************************************************************************
+import methionine.AppException;
 import methionine.Celaeno;
 import methionine.sql.SQLLockTables;
 //**************************************************************************
@@ -30,6 +31,21 @@ public class AccessLambda extends QueryAccess1 {
         //--------------------------------------------------------------
     }
     //******************************************************************
+    /**
+     * Return an access record by its name.
+     * @param accessname
+     * @return
+     * @throws AppException
+     * @throws Exception 
+     */
+    public AccessRecord getAccessRecordByName (String accessname) throws AppException, Exception {
+        //--------------------------------------------------------------
+        connection = electra.slaveConnection();
+        setDataBase();
+        //--------------------------------------------------------------
+        return this.selectAccessRecordByName(accessname);
+        //--------------------------------------------------------------
+    }
     //******************************************************************
     /**
      * Returns an access list for a given object

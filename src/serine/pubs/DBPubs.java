@@ -20,6 +20,7 @@ public class DBPubs {
     //*********************************************************************
     public static class ObjectPubs {
         public static final String TABLE = "objectpubs";
+        public static final String OBJPUBID = "objpubid";
         public static final String TITLE = "title";
         public static final String TEXT = "text";
         public static final String ACCESSID = "accessid";

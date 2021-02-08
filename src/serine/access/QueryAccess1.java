@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import methionine.AppException;
 import methionine.sql.SQLCondition;
 import methionine.sql.SQLDelete;
 import methionine.sql.SQLInsert;
@@ -42,11 +43,68 @@ public class QueryAccess1 extends QueryAccessTabs {
         }        
     }
     //******************************************************************
+    /**
+     * NOT IMPLEMENTED
+     * @param accessid
+     * @return 
+     */
     protected AccessRecord selectAccessRecord (long accessid) {
         
         //DO SOMETHING HERE        
         
         return null;
+    }
+    //******************************************************************
+    /**
+     * Selects and return an access record by its name.
+     * @param accessname
+     * @return
+     * @throws AppException
+     * @throws Exception 
+     */
+    protected AccessRecord selectAccessRecordByName (String accessname) throws AppException, Exception {
+        //-------------------------------------------------------
+        SQLQueryCmd sql = new SQLQueryCmd();
+        SQLSelect select = new SQLSelect(DBAccess.ObjectAccess.TABLE);
+        select.addItem(DBAccess.ObjectAccess.ACCESSID);
+        select.addItem(DBAccess.ObjectAccess.NAME);
+        select.addItem(DBAccess.ObjectAccess.OBJECTTYPE);
+        select.addItem(DBAccess.ObjectAccess.OBJECTID);
+        select.addItem(DBAccess.ObjectAccess.USERID);
+        //-------------------------------------------------------
+        SQLWhere whr = new SQLWhere();
+        whr.addCondition(new SQLCondition(DBAccess.ObjectAccess.NAME, "=", accessname));
+        //-------------------------------------------------------
+        sql.addClause(select);
+        sql.addClause(whr);
+        //-------------------------------------------------------
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        //-------------------------------------------------------
+        try {
+            st = connection.prepareStatement(sql.getText());
+            sql.setParameters(st, 1);
+            rs = st.executeQuery();
+            if (!rs.next())
+                throw new AppException("Access no found", AppException.OBJECTNOTFOUND);
+            AccessRecord record = new AccessRecord();
+            record = new AccessRecord();
+            record.accessid = rs.getLong(DBAccess.ObjectAccess.ACCESSID);
+            record.name = rs.getString(DBAccess.ObjectAccess.NAME);
+            record.objecttype = rs.getInt(DBAccess.ObjectAccess.OBJECTTYPE);
+            record.objectid = rs.getLong(DBAccess.ObjectAccess.OBJECTID);
+            record.userid = rs.getLong(DBAccess.ObjectAccess.USERID);
+            return record;
+        }
+        catch (SQLException e) {
+            StringBuilder msg = new StringBuilder("Failed to select Access Record By Name\n");
+            msg.append(e.getMessage());
+            throw new Exception(msg.toString());
+        }
+        finally {
+            if (st != null) try {st.close();} catch(Exception e){}
+            if (rs != null) try {rs.close();} catch(Exception e){}
+        }
     }
     //******************************************************************
     /**

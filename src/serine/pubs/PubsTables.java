@@ -85,6 +85,7 @@ public class PubsTables extends Alcyone {
         //-------------------------------------------------------------------
         SQLCreateTable create = new SQLCreateTable(DBPubs.ObjectPubs.TABLE);
         create.setEngine(MySQLEngine.INNODB.INNODB);
+        create.addField(DBPubs.ObjectPubs.OBJPUBID, "BIGINT NOT NULL");        
         create.addField(DBPubs.ObjectPubs.TITLE, "VARCHAR (100) NOT NULL");
         create.addField(DBPubs.ObjectPubs.TEXT, "VARCHAR (1000) NOT NULL");
         create.addField(DBPubs.ObjectPubs.ACCESSID, "BIGINT NOT NULL");
