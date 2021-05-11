@@ -1,5 +1,6 @@
 package serine.access;
 //**************************************************************************
+import java.sql.SQLIntegrityConstraintViolationException;
 import methionine.AppException;
 import methionine.Celaeno;
 import methionine.sql.SQLLockTables;
@@ -16,18 +17,14 @@ public class AccessLambda extends QueryAccess1 {
         connection = electra.masterConnection();
         setDataBase();
         //--------------------------------------------------------------
-        SQLLockTables lock = new SQLLockTables();
-        lock.setDataBase(databasename);
-        lock.addTable(DBAccess.ObjectAccess.TABLE);
-        this.getExclusiveTableAccess(lock);
-        //--------------------------------------------------------------
         while (true) {
-            record.accessid = Celaeno.getUniqueID();
-            if (checkValueCount(DBAccess.ObjectAccess.TABLE, DBAccess.ObjectAccess.ACCESSID, record.accessid) == 0) break;
+            try {
+                record.accessid = Celaeno.getUniqueID();
+                this.insertAccessRecord(record);
+                break;
+            }
+            catch (SQLIntegrityConstraintViolationException e) {}
         }
-        //--------------------------------------------------------------
-        this.insertAccessRecord(record);
-        this.releaseExclusiveTableAccess();
         //--------------------------------------------------------------
     }
     //******************************************************************

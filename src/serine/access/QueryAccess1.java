@@ -3,6 +3,7 @@ package serine.access;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import methionine.AppException;
@@ -18,9 +19,10 @@ public class QueryAccess1 extends QueryAccessTabs {
     /**
      * Inserts a new Access Record into the Access table.
      * @param record
+     * @throws java.sql.SQLIntegrityConstraintViolationException
      * @throws Exception 
      */
-    protected void insertAccessRecord (AccessRecord record) throws Exception {
+    protected void insertAccessRecord (AccessRecord record) throws SQLIntegrityConstraintViolationException, Exception {
         SQLInsert insert = new SQLInsert(DBAccess.ObjectAccess.TABLE);
         insert.addValue(DBAccess.ObjectAccess.ACCESSID, record.accessid);
         insert.addValue(DBAccess.ObjectAccess.OBJECTTYPE, record.objecttype);
@@ -33,6 +35,7 @@ public class QueryAccess1 extends QueryAccessTabs {
             insert.setParameters(st, 1);
             st.execute();            
         }
+        catch (SQLIntegrityConstraintViolationException e) { throw e; }
         catch (SQLException e) {
             StringBuilder msg = new StringBuilder("Failed to insert access \n");
             msg.append(e.getMessage());
